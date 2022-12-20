@@ -1,14 +1,14 @@
 X: int = 1
 cycle: int = 0
-total: int = 0
-duration = 20
+row = 0
+display = [[] for _ in range(6)]
 
 def check() -> None:
-    global cycle, duration, total, X
-    if cycle == duration:
-        total += X * duration
-        # print(f" - {X}, {duration}")
-        duration += 40
+    global cycle, X
+    if X - 1 <= (cycle - 1) % 40 and (cycle - 1) % 40 <= X + 1:
+        display[(cycle-1) // 40].append('#')
+    else:
+        display[(cycle-1) // 40].append('.')
 
 while True:
     cmd = input()
@@ -19,4 +19,5 @@ while True:
         cycle += 1
         check()
         X += int(cmd.split(' ')[1])
-print(f"total: {total}")
+for i in display:
+    print(''.join(i))
