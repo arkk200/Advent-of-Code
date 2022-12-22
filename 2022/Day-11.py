@@ -1,7 +1,7 @@
 from math import floor
 from typing import TypedDict
 
-num = 8
+num = 4
 monkey_list = []
 
 for i in range(num):
@@ -25,11 +25,8 @@ def test(monkey_obj: dict, order: int) -> None:
     for item in monkey_obj["items"]:
         ldict= {}
         exec(f"old = {item}; {monkey_obj['operation']}", globals(), ldict)
-        new: int = ldict["new"] // 3
-        if new % monkey_obj["division_by"] == 0:
-            monkey_list[monkey_obj["if_true"]]["items"].append(new)
-        else:
-            monkey_list[monkey_obj["if_false"]]["items"].append(new)
+        new: int = ldict["new"]
+        monkey_list[monkey_obj["if_true"] if new % monkey_obj["division_by"] == 0 else monkey_obj["if_false"]]["items"].append(new)
         monkey_list[order]["inspect_count"] += 1
     monkey_obj["items"] = []
 
@@ -40,6 +37,7 @@ for i in range(20):
         test(monkey_list[j], j)
     for k, v in enumerate(monkey_list):
         print(f"{k}: {v['items']} count : {v['inspect_count']}")
+    print(f"working... {i}")
 
 arr = [i["inspect_count"] for i in monkey_list]
 arr.sort(reverse=True)
